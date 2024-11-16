@@ -166,7 +166,7 @@ export default function InvoiceForm() {
                     />
                 </div>
 
-                <Separator className="my-3" />
+                <Separator className="my-5" />
 
                 {/* Invoice Items */}
                 <div className="flex flex-col space-y-4">
@@ -174,7 +174,10 @@ export default function InvoiceForm() {
                     {fields.map((field, index) => (
                         <div
                             key={field.id}
-                            className="flex w-full space-x-2 border-b pb-4 max-h-full overflow-scroll"
+                            className={cn(
+                                'flex w-full space-x-2 pb-4 max-h-full overflow-scroll',
+                                index !== fields.length - 1 && 'border-b' // Add border-b only if it's not the last item
+                            )}
                         >
                             {/* Description */}
                             <FormField
@@ -267,7 +270,10 @@ export default function InvoiceForm() {
                         </div>
                     ))}
                 </div>
-                <div className="space-y-4">
+
+                <Separator className="my-5" />
+
+                <div className="space-y-2">
                     {/* GST */}
                     <FormField
                         control={form.control}
@@ -307,8 +313,10 @@ export default function InvoiceForm() {
                     />
                 </div>
 
+                <Separator className="my-8" />
+
                 {/* Total Section */}
-                <div className="space-y-2 border-t pt-4">
+                <div className="space-y-2">
                     <div className="flex justify-between">
                         <span className="font-medium">Subtotal:</span>
                         <span>{subtotal.toFixed(2)}</span>
