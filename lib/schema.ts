@@ -43,33 +43,50 @@ export const resetPasswordSchema = z
     });
 
 const InvoiceItemSchema = z.object({
-    description: z
+    name: z
         .string()
         .min(1, 'Item description is required')
         .max(255, "Description can't exceed 255 characters"),
-    quantity: z
-        .number()
-        .min(1, 'Quantity must be at least 1')
-        .int('Quantity must be an integer'),
-    price: z
-        .number()
-        .min(0, 'Price must be non-negative')
-        .finite('Price must be a valid number'),
+    quantity: z.preprocess(
+        (value) => Number(value),
+        z
+            .number()
+            .min(1, 'Quantity must be at least 1')
+            .int('Quantity must be an integer')
+    ),
+    price: z.preprocess(
+        (value) => Number(value),
+        z
+            .number()
+            .min(0, 'Price must be non-negative')
+            .finite('Price must be a valid number')
+    ),
 });
 
-const InvoiceSchema = z.object({
+export const InvoiceSchema = z.object({
     clientName: z.string().min(1, 'Client name is required').max(100),
     clientEmail: z
         .string()
         .email('Invalid email address')
         .max(100, "Email can't exceed 100 characters"),
-    dueDate: z.string().refine(
-        (date) => !isNaN(Date.parse(date)), // Ensure it's a valid date
-        'Due date must be a valid date'
+    dueDate: z.date({
+        required_error: 'A date of birth is required.',
+    }),
+    gst: z.preprocess(
+        (value) => Number(value),
+        z
+            .number()
+            .min(0, 'GST must be non-negative')
+            .max(100, "GST can't exceed 100%")
+    ),
+    discount: z.preprocess(
+        (value) => Number(value),
+        z
+            .number()
+            .min(0, 'Discount must be non-negative')
+            .max(100, "Discount can't exceed 100%")
     ),
     items: z
         .array(InvoiceItemSchema)
         .nonempty('Invoice must have at least one item'),
 });
-
-export default InvoiceSchema;

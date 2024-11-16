@@ -11,7 +11,7 @@ export default async function BaseTemplate({ children }: IBaseTemplate) {
     return (
         <div>
             {' '}
-            <main className="min-h-[93vh] flex flex-col items-center justify-center p-24 gap-y-10 ">
+            <main className="min-h-[93vh] flex flex-col items-center px-24 w-full ">
                 {children}
             </main>
         </div>
