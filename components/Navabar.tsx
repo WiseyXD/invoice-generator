@@ -58,7 +58,7 @@ export default function NewNavbar() {
                                 Invoices
                             </Link>
                         </NavbarItem>
-                        <NavbarItem isActive>
+                        <NavbarItem>
                             <Link href="#" aria-current="page">
                                 Customers
                             </Link>
